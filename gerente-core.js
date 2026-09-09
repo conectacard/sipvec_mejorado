@@ -116,7 +116,6 @@ function cargarYProcesarAuditoria() {
         let nombre = prospecto.nombre || "Sin nombre";
         let contacto = prospecto.contacto || "No reg.";
         let asesor = `Asesor ID: ${prospecto.asesor}` || "No asignado";
-        let origenCliente = prospecto.origen || "Directo / Desconocido"; // <--- NUEVA LÍNEA
         
         let soloDigitos = contacto.replace(/\D/g, '');
         let htmlContacto = soloDigitos.length >= 7 ? 
@@ -129,11 +128,11 @@ function cargarYProcesarAuditoria() {
             <td style="font-weight:bold; color:#fff;">${nombre}</td>
             <td>${htmlContacto}</td>
             <td style="color:#00f0ff; font-weight:bold;">${asesor}</td>
-            <td style="color:#ff69b4; font-weight:bold;">${origenCliente}</td>
             <td>${fecha}</td>
             <td style="text-align:center; font-weight:bold; color:#ffbb33; font-size: 16px;">${intentos} ${textoVeces}</td>
         `;
         tbody.appendChild(fila);
+    });
     
     actualizarIndicadoresKPI(total, verdes, amarillos, rojos);
 }
