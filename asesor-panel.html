@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page_title">Centro de Comando Comercial | SIPVEC Elite</title>
+    <!-- Fuentes de Google de alta gama -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="asesor-style.css">
+    <!-- Librería externa ligera para renderizar códigos QR limpios y profesionales -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body class="sipv-dashboard-body">
+
+    <!-- HEADER EJECUTIVO -->
+    <header class="sipv-header">
+        
+        <!-- SELECTOR DE IDIOMAS GLOBAL HASTA ARRIBA CON ETIQUETA CLARA Y FUNCIONALIDAD DIRECTA -->
+        <div class="top-lang-bar" style="display: flex; justify-content: flex-end; align-items: center; gap: 10px; padding: 10px 20px 0 20px; width: 100%; box-sizing: border-box;">
+            <span style="font-size: 0.75rem; font-weight: 700; color: #a1a1aa; text-transform: uppercase; letter-spacing: 1.5px;">LANGUAGE / IDIOMA:</span>
+            <div class="top-lang-container" style="position: relative; display: inline-block;">
+                <button id="langMenuBtn" class="top-lang-btn" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #fff; padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    🌐 <span data-i18n="lbl_idioma">ESPAÑOL</span> ▼
+                </button>
+                <div id="topLangDropdown" style="display: none; position: absolute; right: 0; top: 110%; background: #18181b; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 10px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.8); z-index: 9999; min-width: 160px; overflow: hidden; padding: 4px;">
+                    <button class="lang-chip" onclick="cambiarIdiomaGlobal('es')" style="display: block; width: 100%; text-align: left; background: transparent; border: none; color: #fff; padding: 8px 12px; font-size: 12px; cursor: pointer; border-radius: 6px;">🇪🇸 ESPAÑOL</button>
+                    <button class="lang-chip" onclick="cambiarIdiomaGlobal('en')" style="display: block; width: 100%; text-align: left; background: transparent; border: none; color: #fff; padding: 8px 12px; font-size: 12px; cursor: pointer; border-radius: 6px;">🇺🇸 ENGLISH</button>
+                    <button class="lang-chip" onclick="cambiarIdiomaGlobal('pt')" style="display: block; width: 100%; text-align: left; background: transparent; border: none; color: #fff; padding: 8px 12px; font-size: 12px; cursor: pointer; border-radius: 6px;">🇧🇷 PORTUGUÊS</button>
+                    <button class="lang-chip" onclick="cambiarIdiomaGlobal('fr')" style="display: block; width: 100%; text-align: left; background: transparent; border: none; color: #fff; padding: 8px 12px; font-size: 12px; cursor: pointer; border-radius: 6px;">🇫🇷 FRANÇAIS</button>
+                    <button class="lang-chip" onclick="cambiarIdiomaGlobal('ko')" style="display: block; width: 100%; text-align: left; background: transparent; border: none; color: #fff; padding: 8px 12px; font-size: 12px; cursor: pointer; border-radius: 6px;">🇰🇷 한국어</button>
+                    <button class="lang-chip" onclick="cambiarIdiomaGlobal('de')" style="display: block; width: 100%; text-align: left; background: transparent; border: none; color: #fff; padding: 8px 12px; font-size: 12px; cursor: pointer; border-radius: 6px;">🇩🇪 DEUTSCH</button>
+                    <button class="lang-chip" onclick="cambiarIdiomaGlobal('ja')" style="display: block; width: 100%; text-align: left; background: transparent; border: none; color: #fff; padding: 8px 12px; font-size: 12px; cursor: pointer; border-radius: 6px;">🇯🇵 日本語</button>
+                    <button class="lang-chip" onclick="cambiarIdiomaGlobal('zh')" style="display: block; width: 100%; text-align: left; background: transparent; border: none; color: #fff; padding: 8px 12px; font-size: 12px; cursor: pointer; border-radius: 6px;">🇨🇳 中文</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="sipv-header-content" style="margin-top: 10px;">
+            <div class="brand-badge" data-i18n="brand_badge">SIPVEC ELITE OS</div>
+            <h1 data-i18n="main_title">Centro de Comando Comercial</h1>
+            <p data-i18n="main_subtitle">Acelera tus cierres, activa recursos y domina tu territorio</p>
+        </div>
+        
+        <!-- TARJETA DE ESTADO Y GUÍA PARA EL ASESOR -->
+        <div class="user-status-card" style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border: 1px dashed rgba(37, 211, 102, 0.4);">
+            <div style="display: flex; align-items: center; gap: 10px; width: 100%;">
+                <span class="status-dot"></span>
+                <div>
+                    <small style="color: #aaa;" data-i18n="lbl_asesor_activo">Asesor Activo en URL</small>
+                    <strong id="badge-nombre-asesor" style="color: #25D366; font-size: 15px;">GENERAL</strong>
+                </div>
+            </div>
+            
+            <div style="font-size: 11px; color: #ddd; line-height: 1.3; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 2px; padding-top: 4px;">
+                💡 <strong data-i18n="lbl_para_personalizar">Para personalizar:</strong> <span data-i18n="lbl_instruccion_url">Modifica la barra de tu navegador cambiando</span> <span style="color: #ff9800; font-weight: bold;">?asesor=general</span> <span data-i18n="lbl_por_tu_nombre">por tu nombre (ej:</span> <span style="color: #25D366; font-weight: bold;">?asesor=carlos</span>) y presiona Enter.
+            </div>
+        </div>
+    </header>
+
+    <main class="sipv-main-grid">
+
+        <!-- TARJETA PRINCIPAL: ACCESO A LA MATRIZ -->
+        <section class="sipv-card hero-card">
+            <div class="hero-info">
+                <span class="badge-gold" data-i18n="badge_plataforma">Plataforma Central</span>
+                <h2 data-i18n="hero_title">Tu SIPVEC CARD Oficial</h2>
+                <p data-i18n="hero_desc">El núcleo de conversión definitivo para enviar fichas, catálogos y agendar citas al instante.</p>
+            </div>
+            <a href="https://demo-autos.pideya.contact/" target="_blank" class="sipv-btn btn-glow" data-i18n="btn_abrir_card">
+                🚀 Abrir SIPVEC CARD
+            </a>
+        </section>
+
+        <!-- SECCIÓN 1: HUB SOCIAL, JUEGOS Y ENTRETENIMIENTO -->
+        <section class="sipv-card module-section" id="social-module">
+            <div class="section-title">
+                <span class="icon">🎮</span>
+                <div>
+                    <h3 data-i18n="sec1_title">Hub de Entretenimiento & Social Selling</h3>
+                    <small data-i18n="sec1_desc">Juegos, tarjetas de cortesía y experiencias con tu branding listas para compartir</small>
+                </div>
+            </div>
+            <div class="action-grid">
+                
+                <button class="resource-card-btn" onclick="togglePanelJuegos()">
+                    <span class="card-icon">🎯</span>
+                    <strong data-i18n="btn_juegos_title">Juegos con Branding de la empresa</strong>
+                    <small data-i18n="btn_juegos_desc">Minijuegos interactivos (Solitario, Memorama, Calendario, Gato) con tu identidad y enlace.</small>
+                </button>
+
+                <div id="panel-juegos-desplegable" style="display: none; grid-column: 1 / -1; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 18px; margin-top: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                        <h4 style="color: #fff; margin: 0; font-size: 15px;" data-i18n="panel_juegos_title">🎮 Panel de Juegos ZENITH CAR</h4>
+                        <button onclick="togglePanelJuegos()" style="background: transparent; border: none; color: #aaa; cursor: pointer; font-size: 16px;" data-i18n="btn_cerrar">✕ Cerrar</button>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+                        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div><span style="font-size: 20px;">🃏</span><strong style="color: #fff; display: block; margin: 6px 0 2px 0; font-size: 14px;" data-i18n="juego_solitario_t">Solitario VIP</strong><small style="color: #bbb; font-size: 12px; display: block; margin-bottom: 10px;" data-i18n="juego_solitario_d">Cartas y estilo ZENITH CAR.</small></div>
+                            <div style="display: flex; gap: 6px;"><button onclick="probarJuego('solitario')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #333; color: #fff; border: 1px solid #555; border-radius: 6px; cursor: pointer;" data-i18n="btn_probar">🔍 Probar</button><button onclick="compartirJuego('solitario')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #25D366; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;" data-i18n="btn_enviar">📤 Enviar</button></div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div><span style="font-size: 20px;">🧩</span><strong style="color: #fff; display: block; margin: 6px 0 2px 0; font-size: 14px;" data-i18n="juego_memorama_t">Memorama Automotriz</strong><small style="color: #bbb; font-size: 12px; display: block; margin-bottom: 10px;" data-i18n="juego_memorama_d">Dinámica de memoria visual.</small></div>
+                            <div style="display: flex; gap: 6px;"><button onclick="probarJuego('memorama')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #333; color: #fff; border: 1px solid #555; border-radius: 6px; cursor: pointer;" data-i18n="btn_probar">🔍 Probar</button><button onclick="compartirJuego('memorama')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #25D366; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;" data-i18n="btn_enviar">📤 Enviar</button></div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div><span style="font-size: 20px;">📅</span><strong style="color: #fff; display: block; margin: 6px 0 2px 0; font-size: 14px;" data-i18n="juego_calendario_t">Calendario de Ofertas</strong><small style="color: #bbb; font-size: 12px; display: block; margin-bottom: 10px;" data-i18n="juego_calendario_d">Fechas clave y promociones.</small></div>
+                            <div style="display: flex; gap: 6px;"><button onclick="probarJuego('calendario')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #333; color: #fff; border: 1px solid #555; border-radius: 6px; cursor: pointer;" data-i18n="btn_probar">🔍 Probar</button><button onclick="compartirJuego('calendario')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #25D366; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;" data-i18n="btn_enviar">📤 Enviar</button></div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div><span style="font-size: 20px;">❌</span><strong style="color: #fff; display: block; margin: 6px 0 2px 0; font-size: 14px;" data-i18n="juego_gato_t">Tres en Raya (Gato)</strong><small style="color: #bbb; font-size: 12px; display: block; margin-bottom: 10px;" data-i18n="juego_gato_d">Duelo rápido y casual.</small></div>
+                            <div style="display: flex; gap: 6px;"><button onclick="probarJuego('gato')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #333; color: #fff; border: 1px solid #555; border-radius: 6px; cursor: pointer;" data-i18n="btn_probar">🔍 Probar</button><button onclick="compartirJuego('gato')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #25D366; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;" data-i18n="btn_enviar">📤 Enviar</button></div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="resource-card-btn" onclick="togglePanelSaludos()">
+                    <span class="card-icon">✨</span>
+                    <strong data-i18n="btn_saludos_title">Saludos al Prospecto y Cliente</strong>
+                    <small data-i18n="btn_saludos_desc">Videos cortos de felicitación a sectores específicos listos para compartir.</small>
+                </button>
+
+                <div id="panel-saludos-desplegable" style="display: none; grid-column: 1 / -1; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 18px; margin-top: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                        <h4 style="color: #fff; margin: 0; font-size: 15px;" data-i18n="panel_saludos_title">✨ Saludos, Flyers & Videos</h4>
+                        <button onclick="togglePanelSaludos()" style="background: transparent; border: none; color: #aaa; cursor: pointer; font-size: 16px;" data-i18n="btn_cerrar">✕ Cerrar</button>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+                        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div><span style="font-size: 20px;">🎬</span><strong style="color: #fff; display: block; margin: 6px 0 2px 0; font-size: 14px;" data-i18n="multimedia_short_t">Video Short Especial</strong><small style="color: #bbb; font-size: 12px; display: block; margin-bottom: 10px;" data-i18n="multimedia_short_d">Video musical dedicado.</small></div>
+                            <div style="display: flex; gap: 6px;">
+                                <button onclick="probarMultimedia('video-short')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #333; color: #fff; border: 1px solid #555; border-radius: 6px; cursor: pointer;" data-i18n="btn_ver">🔍 Ver</button>
+                                <button onclick="compartirMultimedia('video-short')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #25D366; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;" data-i18n="btn_enviar">📤 Enviar</button>
+                            </div>
+                        </div>
+
+                        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div><span style="font-size: 20px;">🥖</span><strong style="color: #fff; display: block; margin: 6px 0 2px 0; font-size: 14px;" data-i18n="multimedia_panaderos_t">Panaderos</strong><small style="color: #bbb; font-size: 12px; display: block; margin-bottom: 10px;" data-i18n="multimedia_panaderos_d">Video saludo comercial.</small></div>
+                            <div style="display: flex; gap: 6px;">
+                                <button onclick="probarMultimedia('panaderos')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #333; color: #fff; border: 1px solid #555; border-radius: 6px; cursor: pointer;" data-i18n="btn_ver">🔍 Ver</button>
+                                <button onclick="compartirMultimedia('panaderos')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #25D366; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;" data-i18n="btn_enviar">📤 Enviar</button>
+                            </div>
+                        </div>
+
+                        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div><span style="font-size: 20px;">🦷</span><strong style="color: #fff; display: block; margin: 6px 0 2px 0; font-size: 14px;" data-i18n="multimedia_dentistas_t">Dentistas</strong><small style="color: #bbb; font-size: 12px; display: block; margin-bottom: 10px;" data-i18n="multimedia_dentistas_d">Video saludo comercial.</small></div>
+                            <div style="display: flex; gap: 6px;">
+                                <button onclick="probarMultimedia('dentistas')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #333; color: #fff; border: 1px solid #555; border-radius: 6px; cursor: pointer;" data-i18n="btn_ver">🔍 Ver</button>
+                                <button onclick="compartirMultimedia('dentistas')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #25D366; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;" data-i18n="btn_enviar">📤 Enviar</button>
+                            </div>
+                        </div>
+
+                        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div><span style="font-size: 20px;">🧠</span><strong style="color: #fff; display: block; margin: 6px 0 2px 0; font-size: 14px;" data-i18n="multimedia_psicologos_t">Psicólogos</strong><small style="color: #bbb; font-size: 12px; display: block; margin-bottom: 10px;" data-i18n="multimedia_psicologos_d">Video saludo comercial.</small></div>
+                            <div style="display: flex; gap: 6px;">
+                                <button onclick="probarMultimedia('psicologos')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #333; color: #fff; border: 1px solid #555; border-radius: 6px; cursor: pointer;" data-i18n="btn_ver">🔍 Ver</button>
+                                <button onclick="compartirMultimedia('psicologos')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #25D366; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;" data-i18n="btn_enviar">📤 Enviar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: MÓDULO INSTITUCIONAL Y CAMPO B2B -->
+        <section class="sipv-card module-section" id="b2b-module">
+            <div class="section-title">
+                <span class="icon">💼</span>
+                <div>
+                    <h3 data-i18n="sec2_title">Maletín Institucional & Campo</h3>
+                    <small data-i18n="sec2_desc">Herramientas tácticas para reuniones y llamadas directas</small>
+                </div>
+            </div>
+            <div class="action-grid">
+                
+                <button class="resource-card-btn" onclick="togglePanelGuiones()">
+                    <span class="card-icon">📞</span>
+                    <strong data-i18n="btn_guiones_title">Guiones Ejecutivos</strong>
+                    <small data-i18n="btn_guiones_desc">Estrategias probadas de llamada y mensajes listos para copiar</small>
+                </button>
+
+                <div id="panel-guiones-desplegable" style="display: none; grid-column: 1 / -1; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 18px; margin-top: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                        <h4 style="color: #fff; margin: 0; font-size: 15px;" data-i18n="panel_guiones_title">📞 Guiones de Conversión Comercial</h4>
+                        <button onclick="togglePanelGuiones()" style="background: transparent; border: none; color: #aaa; cursor: pointer; font-size: 16px;" data-i18n="btn_cerrar">✕ Cerrar</button>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+                        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div><span style="font-size: 20px;">👋</span><strong style="color: #fff; display: block; margin: 6px 0 2px 0; font-size: 14px;" data-i18n="guion_rompe_t">1. El Rompehielos</strong><small style="color: #bbb; font-size: 12px; display: block; margin-bottom: 10px;" data-i18n="guion_rompe_d">Para saludar en frío.</small></div>
+                            <div style="display: flex; gap: 6px;"><button onclick="copiarGuion('rompehielos')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #25D366; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;" data-i18n="btn_copiar_guion">📋 Copiar Guion</button></div>
+                        </div>
+
+                        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div><span style="font-size: 20px;">🎯</span><strong style="color: #fff; display: block; margin: 6px 0 2px 0; font-size: 14px;" data-i18n="guion_cierre_t">2. Cierre de Cita</strong><small style="color: #bbb; font-size: 12px; display: block; margin-bottom: 10px;" data-i18n="guion_cierre_d">Para clientes en visto.</small></div>
+                            <div style="display: flex; gap: 6px;"><button onclick="copiarGuion('seguimiento')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #25D366; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;" data-i18n="btn_copiar_guion">📋 Copiar Guion</button></div>
+                        </div>
+
+                        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div><span style="font-size: 20px;">💡</span><strong style="color: #fff; display: block; margin: 6px 0 2px 0; font-size: 14px;" data-i18n="guion_objecion_t">3. Objeción de Precio</strong><small style="color: #bbb; font-size: 12px; display: block; margin-bottom: 10px;" data-i18n="guion_objecion_d">Redirige al valor.</small></div>
+                            <div style="display: flex; gap: 6px;"><button onclick="copiarGuion('precio')" class="sipv-btn" style="flex: 1; padding: 6px; font-size: 11px; background: #25D366; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;" data-i18n="btn_copiar_guion">📋 Copiar Guion</button></div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="resource-card-btn" onclick="lanzarRecurso('qr-dinamico')">
+                    <span class="card-icon">🖨️</span>
+                    <strong data-i18n="btn_qr_title">Generador QR Visita</strong>
+                    <small data-i18n="btn_qr_desc">Muestra tu código de presencia en tiempo real</small>
+                </button>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: ACADEMIA Y MOTIVACIÓN GERENCIAL -->
+        <section class="sipv-card module-section gerencia-box">
+            <div class="section-title">
+                <span class="icon">🎓</span>
+                <div>
+                    <h3 data-i18n="sec3_title">Kit de Respaldos Gerenciales</h3>
+                    <small data-i18n="sec3_desc">Estrategia y energía diaria enviada por la gerencia</small>
+                </div>
+            </div>
+            <a href="https://www.youtube.com/watch?v=kNSc3dXlV34" target="_blank" style="text-decoration: none; display: block;">
+                <div class="video-preview-card" style="cursor: pointer; transition: transform 0.2s ease;">
+                    <div class="video-placeholder" style="background: linear-gradient(135deg, #111, #222); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 20px; text-align: center; color: #fff;">
+                        <span style="font-size: 16px; font-weight: bold;" data-i18n="video_btn_text">▶ Ver Video Estratégico Quincenal</span>
+                    </div>
+                    <p style="color: #ccc; margin-top: 8px; font-size: 13px;" data-i18n="video_caption"><em>"Mi mantra para "sentir ganas" de hacer lo que me propongo"</em> - Dan Macías</p>
+                </div>
+            </a>
+        </section>
+
+    </main>
+
+    <!-- FOOTER TÉCNICO -->
+    <footer class="sipv-footer">
+        <p data-i18n="footer_text">Operado con Arquitectura de Inteligencia Comercial y Estándar SIPVEC &copy; 2026</p>
+    </footer>
+
+    <!-- MODAL DINÁMICO PARA EL CÓDIGO QR AUTOMÁTICO DEL ASESOR -->
+    <div id="sipv-qr-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center; backdrop-filter: blur(5px);">
+        <div style="background:#18181b; border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:30px; max-width:360px; width:90%; text-align:center; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3 style="color:#fff; margin:0; font-size:18px;" data-i18n="modal_qr_title">📱 Tu QR de Presencia</h3>
+                <button onclick="cerrarQRModal()" style="background:transparent; border:none; color:#aaa; font-size:18px; cursor:pointer;">✕</button>
+            </div>
+            <p id="sipv-qr-subtitle" style="color:#a1a1aa; font-size:13px; margin-bottom:20px;" data-i18n="modal_qr_sub">Código vinculado a tu ID de ventas oficial.</p>
+            
+            <div id="sipv-qrcode-render" style="background:#fff; padding:15px; border-radius:12px; display:inline-block; margin-bottom:20px;"></div>
+            
+            <div style="word-break:break-all; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; font-size:11px; color:#e4e4e7; margin-bottom:20px;" id="sipv-qr-url-text"></div>
+            
+            <div style="display:flex; gap:10px;">
+                <button onclick="copiarEnlaceQR()" class="sipv-btn" style="flex:1; padding:10px; background:#25D366; color:#fff; border:none; border-radius:8px; font-weight:bold; cursor:pointer; font-size:13px;" data-i18n="btn_copiar_enlace">📋 Copiar Enlace</button>
+                <button onclick="cerrarQRModal()" class="sipv-btn" style="flex:1; padding:10px; background:#27272a; color:#fff; border:1px solid #3f3f46; border-radius:8px; cursor:pointer; font-size:13px;" data-i18n="btn_cerrar">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de Traducción e Interacción del Asesor -->
+    <script src="lang.js"></script>
+    <script src="asesor-lang.js"></script>
+    <script src="asesor-core.js"></script>
+
+    <!-- SCRIPT DE CONTROL DIRECTO PARA EL MENÚ DE IDIOMAS -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const btn = document.getElementById("langMenuBtn");
+            const dropdown = document.getElementById("topLangDropdown");
+
+            if (btn && dropdown) {
+                btn.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+                });
+
+                document.addEventListener("click", function (e) {
+                    if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
+                        dropdown.style.display = "none";
+                    }
+                });
+            }
+        });
+
+        function cambiarIdiomaGlobal(lang) {
+            const dropdown = document.getElementById("topLangDropdown");
+            if (dropdown) dropdown.style.display = "none";
+            
+            // Si tu sistema usa una función externa en asesor-lang.js o lang.js, la invocamos:
+            if (typeof changeLanguage === "function") {
+                changeLanguage(lang);
+            } else {
+                console.warn("changeLanguage global no encontrada, recargando o aplicando manualmente.");
+            }
+        }
+    </script>
+    <!-- Diccionario de traducciones i18n -->
+    <script src="lang.js"></script>
+    
+    <!-- Tu script principal del panel que acabamos de actualizar -->
+    <script src="asesor-script.js"></script>
+
+</body>
+</html>
