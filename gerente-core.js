@@ -78,7 +78,7 @@ function cargarYProcesarAuditoria() {
     let verdes = 0; let amarillos = 0; let rojos = 0;
     
     if (total === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#555; padding: 20px;">No hay registros de prospectos todavía.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#555; padding: 20px;">No hay registros de prospectos todavía.</td></tr>`;
         actualizarIndicadoresKPI(0, 0, 0, 0);
         return;
     }
@@ -87,7 +87,6 @@ function cargarYProcesarAuditoria() {
         let intentos = prospecto.intentos || 1;
         let tiempoCompra = prospecto.tiempo ? prospecto.tiempo.trim() : "";
         let claseBadge = ""; 
-        let textoEstado = "";
 
         const lang = localStorage.getItem('sipv_lang_gerente') || 'es';
         const textoVeces = DICTIONARY[lang]?.gerente_texto_veces || "veces";
@@ -115,7 +114,8 @@ function cargarYProcesarAuditoria() {
         let fecha = prospecto.primerContacto || "No registrada";
         let nombre = prospecto.nombre || "Sin nombre";
         let contacto = prospecto.contacto || "No reg.";
-        let asesor = `Asesor ID: ${prospecto.asesor}` || "No asignado";
+        let asesor = prospecto.asesor ? `Asesor ID: ${prospecto.asesor}` : "No asignado";
+        let origenCliente = prospecto.origen || "Directo / Desconocido";
         
         let soloDigitos = contacto.replace(/\D/g, '');
         let htmlContacto = soloDigitos.length >= 7 ? 
@@ -128,6 +128,7 @@ function cargarYProcesarAuditoria() {
             <td style="font-weight:bold; color:#fff;">${nombre}</td>
             <td>${htmlContacto}</td>
             <td style="color:#00f0ff; font-weight:bold;">${asesor}</td>
+            <td style="color:#ff69b4; font-weight:bold;">${origenCliente}</td>
             <td>${fecha}</td>
             <td style="text-align:center; font-weight:bold; color:#ffbb33; font-size: 16px;">${intentos} ${textoVeces}</td>
         `;
@@ -190,10 +191,15 @@ function cargarReseñasGerencia() {
 }
 
 function actualizarIndicadoresKPI(t, v, a, r) {
-    document.getElementById('kpi-total').innerText = t;
-    document.getElementById('kpi-verde').innerText = v;
-    document.getElementById('kpi-amarillo').innerText = a;
-    document.getElementById('kpi-rojo').innerText = r;
+    const kpiT = document.getElementById('kpi-total');
+    const kpiV = document.getElementById('kpi-verde');
+    const kpiA = document.getElementById('kpi-amarillo');
+    const kpiR = document.getElementById('kpi-rojo');
+    
+    if (kpiT) kpiT.innerText = t;
+    if (kpiV) kpiV.innerText = v;
+    if (kpiA) kpiA.innerText = a;
+    if (kpiR) kpiR.innerText = r;
 }
 
 function exportarAExcel() {
@@ -231,8 +237,8 @@ function exportarAExcel() {
 
 function limpiarPanelGerencial() {
     const lang = localStorage.getItem('sipv_lang_gerente') || 'es';
-    const mensaje = DICTIONARY[lang].alerta_vaciar_panel || "¿Estás seguro de vaciar el panel de auditoría por completo?";
-    const mensajeExito = DICTIONARY[lang].alerta_panel_vaciado || "Panel vaciado correctamente.";
+    const mensaje = DICTIONARY[lang]?.alerta_vaciar_panel || "¿Estás seguro de vaciar el panel de auditoría por completo?";
+    const mensajeExito = DICTIONARY[lang]?.alerta_panel_vaciado || "Panel vaciado correctamente.";
     
     if (confirm(mensaje)) {
         localStorage.removeItem('db_prospectos_agencia');
